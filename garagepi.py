@@ -71,7 +71,7 @@ try:
 			motionDetectedCount += 1
 
 			# See how long it has been since we started counting
-			currentTimeStamp = datetime.timestamp
+			currentTimeStamp = float(datetime.timestamp)
 			sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
 
 			print("Motion detected! " + sinceLastOccurence + " elapsed since the last occurence")
