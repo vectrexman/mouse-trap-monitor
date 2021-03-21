@@ -27,13 +27,13 @@ previousstate = 0
 
 # Load Environment Variables
 load_dotenv()
-enable_post = os.getenv("ENABLE_POST")
-motion_detected_cooldown = os.getenv("MOTION_DETECTED_COOLDOWN")
-read_frequency = os.getenv("READ_FREQUENCY")
+enable_post = bool(os.getenv("ENABLE_POST"))
+motion_detected_cooldown = int(os.getenv("MOTION_DETECTED_COOLDOWN"))
+read_frequency = float(os.getenv("READ_FREQUENCY"))
 
-print("enable_post loaded as: " + str(enable_post))
-print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
-print("read_frequency loaded as: " + str(read_frequency))
+print("enable_post loaded as: " + enable_post)
+print("motion_detected_cooldown loaded as: " + motion_detected_cooldown)
+print("read_frequency loaded as: " + read_frequency)
 
 #read_frequency = float(read_frequency)
 
