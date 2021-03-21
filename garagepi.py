@@ -8,6 +8,7 @@ import time
 import requests
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 # Set the GPIO naming convention
 GPIO.setmode(GPIO.BCM)
@@ -36,6 +37,12 @@ print("enable_post loaded as: " + str(enable_post))
 print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
 print("read_frequency loaded as: " + str(read_frequency))
 
+# Instantiate Program Vars
+startTime = datetime.now()
+motionDetectedCount = 0
+
+print("Current Date/Time: " + startTime)
+
 try:
 	print("Waiting for PIR to settle ...")
 	
@@ -46,7 +53,7 @@ try:
 
 	print("    Ready. Quit at any time with CTRL-C")
 	# Sleep momentarily to allow messages to be read
-	time.sleep(1)
+	time.sleep(1.5)
 	
 	# Loop until users quits with CTRL-C
 	while True:
