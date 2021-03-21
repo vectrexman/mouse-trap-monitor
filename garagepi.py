@@ -41,7 +41,7 @@ print("read_frequency loaded as: " + str(read_frequency))
 beganCountDateTime = datetime.now()
 beganCountTimeStamp = time.time()
 motionDetectedCount = 0
-lastOccurenceTimeStamp = beganCountTimeStamp
+lastOccurenceTimeStamp = 0
 
 beganCountDateTimeFormatted = beganCountDateTime.strftime("%d/%m/%Y %H:%M:%S")
 print("Current Date/Time: " + beganCountDateTimeFormatted)
@@ -71,21 +71,24 @@ try:
 			motionDetectedCount += 1
 
 			# See how long it has been since we started counting
-			currentTimeStamp = time.time()
-			sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
+			if lastOccurenceTimeStamp == 0:
+				currentTimeStamp = time.time()
+				sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
 
-			print("Motion detected! " + sinceLastOccurence + " seconds elapsed since the last occurence")
+				print("Motion detected! " + str(sinceLastOccurence) + " seconds elapsed since the last occurence")
 
-			if enable_post == 'true':
-				print("Post enabled - pushing event to IFTTT")
+				if enable_post == 'true':
+					print("Post enabled - pushing event to IFTTT")
 
-				# Your IFTTT URL with event name, key and json parameters (values)
-				r = requests.post(
-			    	'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
-			    	params={"value1":"none","value2":"none","value3":"none"}
-			    )
+					# Your IFTTT URL with event name, key and json parameters (values)
+					r = requests.post(
+						'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
+						params={"value1":"none","value2":"none","value3":"none"}
+					)
+				else:
+					print("Post disabled - nothing sent")
 			else:
-				print("Post disabled - nothing sent")
+				print("Motion detected! The first since the last reset")
 			
 			# Record new previous state
 			previousstate = 1
