@@ -28,14 +28,13 @@ previousstate = 0
 # Load Environment Variables
 load_dotenv()
 enable_post = bool(os.getenv("ENABLE_POST"))
+ifttt_key = str(os.getenv("IFTTT_KEY"))
 motion_detected_cooldown = int(os.getenv("MOTION_DETECTED_COOLDOWN"))
 read_frequency = float(os.getenv("READ_FREQUENCY"))
 
 print("enable_post loaded as: " + str(enable_post))
 print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
 print("read_frequency loaded as: " + str(read_frequency))
-
-#read_frequency = float(read_frequency)
 
 try:
 	print("Waiting for PIR to settle ...")
@@ -45,7 +44,7 @@ try:
 	
 		currentstate = 0
 
-	print("    Ready")
+	print("    Ready. Quit at any time with CTRL-C")
 	
 	# Loop until users quits with CTRL-C
 	while True:
@@ -59,15 +58,15 @@ try:
 			print("Motion detected!")
 
 			if enable_post == 'true':
-				print("Post enabled")
+				print("Post enabled - pushing event to IFTTT")
+
+				# Your IFTTT URL with event name, key and json parameters (values)
+				r = requests.post(
+			    	'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
+			    	params={"value1":"none","value2":"none","value3":"none"}
+			    )
 			else:
-				print("Post disabled")
-			
-			# Your IFTTT URL with event name, key and json parameters (values)
-			#r = requests.post(
-			#	'https://maker.ifttt.com/trigger/motion_detected/with/key/*INSERT KEY HERE*',
-			#	params={"value1":"none","value2":"none","value3":"none"}
-			#)
+				print("Post disabled - nothing sent")
 			
 			# Record new previous state
 			previousstate = 1
