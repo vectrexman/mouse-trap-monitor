@@ -38,11 +38,13 @@ print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
 print("read_frequency loaded as: " + str(read_frequency))
 
 # Instantiate Program Vars
-startTime = datetime.now()
+beganCountDateTime = datetime.now()
+beganCountTimeStamp = datetime.timestamp(beganCountDateTime)
 motionDetectedCount = 0
+lastOccurenceTimeStamp = beganCountTimeStamp
 
-startTimeFormatted = startTime.strftime("%d/%m/%Y %H:%M:%S")
-print("Current Date/Time: " + startTimeFormatted)
+beganCountDateTimeFormatted = beganCountDateTime.strftime("%d/%m/%Y %H:%M:%S")
+print("Current Date/Time: " + beganCountDateTimeFormatted)
 
 try:
 	print("Waiting for PIR to settle ...")
@@ -65,7 +67,14 @@ try:
 		# If the PIR is triggered
 		if currentstate == 1 and previousstate == 0:
 		
-			print("Motion detected!")
+			# Make a note
+			motionDetectedCount += 1
+
+			# See how long it has been since we started counting
+			currentTimeStamp = datetime.timestamp
+			sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
+
+			print("Motion detected! " + sinceLastOccurence + " elapsed since the last occurence")
 
 			if enable_post == 'true':
 				print("Post enabled - pushing event to IFTTT")
@@ -80,6 +89,7 @@ try:
 			
 			# Record new previous state
 			previousstate = 1
+			lastOccurenceTimeStamp = currentTimeStamp
 			
 			#Wait the specified number of seconds before looping again
 			print("    Waiting " + str(motion_detected_cooldown) + " seconds")
