@@ -45,6 +45,8 @@ try:
 		currentstate = 0
 
 	print("    Ready. Quit at any time with CTRL-C")
+	# Sleep momentarily to allow messages to be read
+	time.sleep(1)
 	
 	# Loop until users quits with CTRL-C
 	while True:
