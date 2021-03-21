@@ -6,6 +6,8 @@
 import RPi.GPIO as GPIO
 import time
 import requests
+from dotenv import load_dotenv
+import os
 
 # Set the GPIO naming convention
 GPIO.setmode(GPIO.BCM)
@@ -22,6 +24,9 @@ GPIO.setup(pinpir, GPIO.IN)
 # Variables to hold the current and last states
 currentstate = 0
 previousstate = 0
+
+# Load Environment Variables
+enable_post = os.getenv("ENABLE_POST")
 
 try:
 	print("Waiting for PIR to settle ...")
@@ -43,12 +48,17 @@ try:
 		if currentstate == 1 and previousstate == 0:
 		
 			print("Motion detected!")
+
+			if enable_post == 'true':
+				print("Post enabled")
+			else:
+				print("Post disabled")
 			
 			# Your IFTTT URL with event name, key and json parameters (values)
-			r = requests.post(
-				'https://maker.ifttt.com/trigger/motion_detected/with/key/*INSERT KEY HERE*',
-				params={"value1":"none","value2":"none","value3":"none"}
-			)
+			#r = requests.post(
+			#	'https://maker.ifttt.com/trigger/motion_detected/with/key/*INSERT KEY HERE*',
+			#	params={"value1":"none","value2":"none","value3":"none"}
+			#)
 			
 			# Record new previous state
 			previousstate = 1
