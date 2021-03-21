@@ -32,10 +32,12 @@ enable_post = bool(os.getenv("ENABLE_POST"))
 ifttt_key = str(os.getenv("IFTTT_KEY"))
 motion_detected_cooldown = int(os.getenv("MOTION_DETECTED_COOLDOWN"))
 read_frequency = float(os.getenv("READ_FREQUENCY"))
+notification_frequency = int(os.getenv("NOTIFICATION_FREQUENCY"))
 
 print("enable_post loaded as: " + str(enable_post))
 print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
 print("read_frequency loaded as: " + str(read_frequency))
+print("notification_frequency loaded as: " + str(notification_frequency))
 
 # Instantiate Program Vars
 beganCountDateTime = datetime.now()
@@ -74,20 +76,31 @@ try:
 
 			# See how long it has been since we started counting
 			if lastOccurenceTimeStamp > 0:
-				sinceLastOccurence = round(currentTimeStamp - lastOccurenceTimeStamp, 2)
+				sinceLastOccurenceSecs = currentTimeStamp - lastOccurenceTimeStamp
+				sinceLastOccurenceMins = round(sinceLastOccurenceSecs / 60, 2)
+				sinceBeganCount = currentTimeStamp - beganCountTimeStamp
 
-				print("Motion detected! " + str(sinceLastOccurence) + " seconds elapsed since the last occurence")
+				print(
+					"Motion detected! " + str(sinceLastOccurenceMins) + 
+					" minutes elapsed since the last occurence. Total since last reset: " + str(motionDetectedCount)
+				)
 
-				if enable_post == 'true':
-					print("Post enabled - pushing event to IFTTT")
+				# If we have passed the notification threshold then send an update if enabled
+				if sinceLastOccurenceSecs > notification_frequency:
+					if enable_post == 'true':
+						print("Post enabled - pushing event to IFTTT")
 
-					# Your IFTTT URL with event name, key and json parameters (values)
-					r = requests.post(
-						'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
-						params={"value1":"none","value2":"none","value3":"none"}
-					)
-				else:
-					print("Post disabled - nothing sent")
+						# Your IFTTT URL with event name, key and json parameters (values)
+						r = requests.post(
+							'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
+							params={"value1":"none","value2":"none","value3":"none"}
+						)
+					else:
+						print("Post disabled - nothing sent")
+
+					# Reset count
+					beganCountTimeStamp = time.time()
+					motionDetectedCount = 0
 			else:
 				print("Motion detected! The first since the last reset")
 			
