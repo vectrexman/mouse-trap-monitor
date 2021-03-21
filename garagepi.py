@@ -27,7 +27,7 @@ previousstate = 0
 
 # Load Environment Variables
 enable_post = os.getenv("ENABLE_POST")
-motion_detected_cooldown = float(os.getenv("MOTION_DETECTED_COOLDOWN"))
+motion_detected_cooldown = int(os.getenv("MOTION_DETECTED_COOLDOWN"))
 read_frequency = int(os.getenv("READ_FREQUENCY"))
 
 try:
