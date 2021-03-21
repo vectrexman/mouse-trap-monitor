@@ -27,6 +27,8 @@ previousstate = 0
 
 # Load Environment Variables
 enable_post = os.getenv("ENABLE_POST")
+motion_detected_cooldown = os.getenv("MOTION_DETECTED_COOLDOWN")
+read_frequency = os.getenv("READ_FREQUENCY")
 
 try:
 	print("Waiting for PIR to settle ...")
@@ -63,18 +65,19 @@ try:
 			# Record new previous state
 			previousstate = 1
 			
-			#Wait 120 seconds before looping again
-			print("Waiting 120 seconds")
-			time.sleep(120)
+			#Wait the specified number of seconds before looping again
+			print("    Waiting " + str(motion_detected_cooldown) + " seconds")
+			time.sleep(motion_detected_cooldown)
 			
 		# If the PIR has returned to ready state
 		elif currentstate == 0 and previousstate == 1:
 		
-			print("Ready")
+			print("    Resetting")
 			previousstate = 0
 
-		# Wait for 10 milliseconds
-		time.sleep(0.01)
+		# Wait for the specified number of seconds
+		time.sleep(read_frequency)
+		print("    Ready")
 
 except KeyboardInterrupt:
 	print("    Quit")

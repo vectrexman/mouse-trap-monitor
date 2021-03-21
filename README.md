@@ -2,6 +2,8 @@
 
 ## Run
 
+From garagepi directory:
+
 `python3 ./garagepi.py`
 
 ## Dependencies
