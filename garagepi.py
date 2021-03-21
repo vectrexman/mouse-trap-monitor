@@ -39,7 +39,7 @@ print("read_frequency loaded as: " + str(read_frequency))
 
 # Instantiate Program Vars
 beganCountDateTime = datetime.now()
-beganCountTimeStamp = datetime.timestamp(beganCountDateTime)
+beganCountTimeStamp = time.time()
 motionDetectedCount = 0
 lastOccurenceTimeStamp = beganCountTimeStamp
 
@@ -71,10 +71,10 @@ try:
 			motionDetectedCount += 1
 
 			# See how long it has been since we started counting
-			currentTimeStamp = datetime.timestamp()
+			currentTimeStamp = time.time()
 			sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
 
-			print("Motion detected! " + sinceLastOccurence + " elapsed since the last occurence")
+			print("Motion detected! " + sinceLastOccurence + " seconds elapsed since the last occurence")
 
 			if enable_post == 'true':
 				print("Post enabled - pushing event to IFTTT")
