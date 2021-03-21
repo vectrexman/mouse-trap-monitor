@@ -71,7 +71,7 @@ try:
 			motionDetectedCount += 1
 
 			# See how long it has been since we started counting
-			if lastOccurenceTimeStamp == 0:
+			if lastOccurenceTimeStamp > 0:
 				currentTimeStamp = time.time()
 				sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
 
