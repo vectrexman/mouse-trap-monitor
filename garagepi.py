@@ -26,7 +26,7 @@ currentstate = 0
 previousstate = 0
 
 # Load Environment Variables
-
+load_dotenv()
 enable_post = os.getenv("ENABLE_POST")
 motion_detected_cooldown = os.getenv("MOTION_DETECTED_COOLDOWN")
 read_frequency = os.getenv("READ_FREQUENCY")
