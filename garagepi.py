@@ -74,7 +74,7 @@ try:
 
 			# See how long it has been since we started counting
 			if lastOccurenceTimeStamp > 0:
-				sinceLastOccurence = currentTimeStamp - lastOccurenceTimeStamp
+				sinceLastOccurence = round(currentTimeStamp - lastOccurenceTimeStamp, 2)
 
 				print("Motion detected! " + str(sinceLastOccurence) + " seconds elapsed since the last occurence")
 
