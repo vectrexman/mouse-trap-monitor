@@ -87,7 +87,7 @@ try:
 
 				# If we have passed the notification threshold then send an update if enabled
 				if sinceBeganCount > notification_frequency:
-					if enable_post == 'true':
+					if enable_post == true:
 						print("Post enabled - pushing event to IFTTT")
 
 						sinceBeganCountHours = round((sinceBeganCount / 60) / 60, 2)
