@@ -86,14 +86,16 @@ try:
 				)
 
 				# If we have passed the notification threshold then send an update if enabled
-				if sinceLastOccurenceSecs > notification_frequency:
+				if sinceBeganCount > notification_frequency:
 					if enable_post == 'true':
 						print("Post enabled - pushing event to IFTTT")
+
+						sinceBeganCountHours = round((sinceBeganCount / 60) / 60, 2)
 
 						# Your IFTTT URL with event name, key and json parameters (values)
 						r = requests.post(
 							'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
-							params={"value1":"none","value2":"none","value3":"none"}
+							params={"value1":motionDetectedCount,"value2":sinceBeganCountHours,"value3":"none"}
 						)
 					else:
 						print("Post disabled - nothing sent")
