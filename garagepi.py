@@ -30,6 +30,7 @@ previousstate = 0
 enable_post = os.getenv("ENABLE_POST")
 motion_detected_cooldown = os.getenv("MOTION_DETECTED_COOLDOWN")
 read_frequency = os.getenv("READ_FREQUENCY")
+read_frequency = float(read_frequency)
 
 try:
 	print("Waiting for PIR to settle ...")
