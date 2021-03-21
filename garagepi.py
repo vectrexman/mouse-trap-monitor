@@ -41,7 +41,8 @@ print("read_frequency loaded as: " + str(read_frequency))
 startTime = datetime.now()
 motionDetectedCount = 0
 
-print("Current Date/Time: " + startTime)
+startTimeFormatted = startTime.strftime("%d/%m/%Y %H:%M:%S")
+print("Current Date/Time: " + startTimeFormatted)
 
 try:
 	print("Waiting for PIR to settle ...")
