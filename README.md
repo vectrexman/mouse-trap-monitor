@@ -4,7 +4,7 @@ A PIR Raspberry PI powered Python script to detect potential mouse movements.
 
 ## What is it's purpose?
 
-If you have a humane mouse trap, it is especially important to know whether there is a mouse in it. If there is and you don't check, then it will eventually run out of food and water which defeats the point of it being a humane trap!
+If you have a humane mouse trap, it is especially important to know whether there is a mouse in it. If there is and you don't check, then it will eventually run out of food and water which would be bad news for the mouse...
 
 Checking the traps are boring and it is useful to know whether there is likely to be activity in remote locations e.g. a garage. This project was designed to help with that problem.
 
@@ -14,11 +14,11 @@ The PIR sensor needs to ideally point at the (preferably) humane mouse trap. The
 
 * The PIR sensor will look for movement every 0.1 seconds.
 * When movement is detected, it will add one to the counter and will wait for 30 seconds.
-* After 24 hours (approx) it will fire off a request to IFTTT which in turn will trigger a request to Pushbullet. You will then get a notification on your phone telling you how many instances of movement have been detected in the last 24 hours.
+* After 24 hours (approx) it will fire off a request to IFTTT which in turn will trigger a request to Pushbullet. You will then get a notification on your phone telling you how many instances of movement have been detected in the last 24 hours. The counter is reset.
 
     If the movement is significantly higher than prevous days e.g. 20% higher then there is a chance there might be a mouse in the trap and it may be worth checking out!
 
-> Example: In my case I was getting approx 800ish triggers a day. At 1036 I found that there was a mouse in the trap. Note that there is a degree of variant and nothing is exact.
+> Example: In my case I was getting approx 800ish triggers a day. At 1036 I found that there was a mouse in the trap. Note that there is a degree of variation and nothing is exact so use your instincts.
 
 ## Hardware
 
