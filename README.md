@@ -2,6 +2,24 @@
 
 A PIR Raspberry PI powered Python script to detect potential mouse movements.
 
+## What is it's purpose?
+
+If you have a humane mouse trap, it is especially important to know whether there is a mouse in it. If there is and you don't check, then it will eventually run out of food and water which defeats the point of it being a humane trap!
+
+Checking the traps are boring and it is useful to know whether there is likely to be activity in remote locations e.g. a garage. This project was designed to help with that problem.
+
+## How does it work?
+
+The PIR sensor needs to ideally point at the (preferably) humane mouse trap. The below values are based on the default example.
+
+* The PIR sensor will look for movement every 0.1 seconds.
+* When movement is detected, it will add one to the counter and will wait for 30 seconds.
+* After 24 hours (approx) it will fire off a request to IFTTT which in turn will trigger a request to Pushbullet. You will then get a notification on your phone telling you how many instances of movement have been detected in the last 24 hours.
+
+    If the movement is significantly higher than prevous days e.g. 20% higher then there is a chance there might be a mouse in the trap and it may be worth checking out!
+
+> Example: In my case I was getting approx 800ish triggers a day. At 1036 I found that there was a mouse in the trap. Note that there is a degree of variant and nothing is exact.
+
 ## Hardware
 
 This is what I used for this project, but most Raspberry PI models would work just as well providing they have GPIO to connect the PIR sensor to:
@@ -25,10 +43,15 @@ This is what I used for this project, but most Raspberry PI models would work ju
 4. Clone this repository into a directory of your choice e.g. your home directory at `~/`:
 
         git clone git@github.com:vectrexman/mouse-trap-monitor.git
+5. From within your cloned directory e.g. `cd ~/mouse-trap-monitor` Copy the example `.env.example` file to `.env` and alter variables to your preference including putting in your IFTTT key *important*
+
+        cp .env.example .env
+
+    If you don't do this you will likely get errors as it won't know what values to use.
 
 ### Running the script
 
-From anywhere (substituring the locaton as relevant):
+From anywhere (substituting the locaton as relevant):
 
     python3 ~/mouse-trap-monitor/start.py
 
