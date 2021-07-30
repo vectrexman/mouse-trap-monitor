@@ -1,5 +1,8 @@
 # Mouse Trap Monitor
 
+As featured in issue 108 of [The MagPi Magazine (August 2021)](https://magpi.raspberrypi.org/issues/108) 
+and on the [Raspberry PI Blog](https://www.raspberrypi.org/blog/humane-mouse-trap-the-magpi-108).
+
 A PIR Raspberry PI powered Python script to detect potential mouse movements.
 
 ## What is it's purpose?
