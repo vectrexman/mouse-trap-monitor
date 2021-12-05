@@ -12,13 +12,10 @@ from datetime import datetime
 
 # Set the GPIO naming convention
 GPIO.setmode(GPIO.BCM)
-
 # Turn off GPIO warnings
 GPIO.setwarnings(False)
-
 # Set a variable to hold the GPIO Pin identity
 pinpir = 17
-
 # Set GPIO pin as input
 GPIO.setup(pinpir, GPIO.IN)
 
@@ -38,6 +35,7 @@ print("enable_post loaded as: " + str(enable_post))
 print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
 print("read_frequency loaded as: " + str(read_frequency))
 print("notification_frequency loaded as: " + str(notification_frequency))
+time.sleep(1)
 
 # Instantiate Program Vars
 beganCountDateTime = datetime.now()
