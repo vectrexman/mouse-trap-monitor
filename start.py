@@ -42,6 +42,7 @@ beganCountDateTime = datetime.now()
 beganCountTimeStamp = time.time()
 motionDetectedCount = 0
 lastOccurenceTimeStamp = 0
+retryPostCounter = 0 # Tracks how many attempts to post before giving up
 
 beganCountDateTimeFormatted = beganCountDateTime.strftime("%d/%m/%Y %H:%M:%S")
 print("Current Date/Time: " + beganCountDateTimeFormatted)
@@ -90,11 +91,23 @@ try:
 
 						sinceBeganCountHours = round((sinceBeganCount / 60) / 60, 2)
 
-						# Your IFTTT URL with event name, key and json parameters (values)
-						r = requests.post(
-							'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
-							params={"value1":motionDetectedCount,"value2":sinceBeganCountHours,"value3":"none"}
-						)
+						try:
+							# Your IFTTT URL with event name, key and json parameters (values)
+							# Timeout set to 30 seconds in the event of no response or internet dropping
+							r = requests.post(
+								'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
+								params={"value1":motionDetectedCount,"value2":sinceBeganCountHours,"value3":"none"},
+								timeout=30
+							)
+
+							retryPostCounter = 0
+						except requests.Timeout:
+							retryPostCounter += 1
+
+							if retryPostCounter >= 5:
+								raise ValueError("Attempts to contact IFTTT reached threshold. Aborting :(")
+							else:
+								print("Error pushing to IFTTT, will try again...")
 					else:
 						print("Post disabled - nothing sent")
 
