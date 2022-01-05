@@ -42,6 +42,7 @@ beganCountDateTime = datetime.now()
 beganCountTimeStamp = time.time()
 motionDetectedCount = 0
 lastOccurenceTimeStamp = 0
+connectionTimeout = 60 # How many seconds to wait for IFTTT to respond in secs
 retryPostCounter = 0 # Tracks how many attempts to post before giving up
 
 beganCountDateTimeFormatted = beganCountDateTime.strftime("%d/%m/%Y %H:%M:%S")
@@ -93,11 +94,11 @@ try:
 
 						try:
 							# Your IFTTT URL with event name, key and json parameters (values)
-							# Timeout set to 30 seconds in the event of no response or internet dropping
+							# Timeout is how long to wait in seconds in the event of no response or internet dropping
 							r = requests.post(
 								'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
 								params={"value1":motionDetectedCount,"value2":sinceBeganCountHours,"value3":"none"},
-								timeout=30
+								timeout=connectionTimeout
 							)
 
 							retryPostCounter = 0
