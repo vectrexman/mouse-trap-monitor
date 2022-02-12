@@ -6,7 +6,7 @@ A PIR Raspberry PI powered Python script to detect potential mouse movements.
 
 This is what I used for this project, but most Raspberry PI models would work just as well providing they have GPIO to connect the PIR sensor to:
 
-* Raspberry PI Zero WH (Wifi for networking and header for easy GPIO use)
+* Raspberry PI Zero WH (Wifi for networking and header for easy GPIO use but your use case may vary!)
 * PIR sensor
 * 3 Dupont jumper wires to connect them with
 * (Optional) Case for PI and a coffee lid to protect the sensor!
@@ -15,7 +15,7 @@ This is what I used for this project, but most Raspberry PI models would work ju
 
 ### Running the script
 
-From project directory:
+From the git clone'd project directory:
 
     python3 ./start.py
 
