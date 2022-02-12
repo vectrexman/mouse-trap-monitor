@@ -102,13 +102,22 @@ try:
 							)
 
 							retryPostCounter = 0
+						except requests.exceptions.ConnectionError:
+							retryPostCounter += 1
+
+							if retryPostCounter >= 5:
+								raise ValueError("Attempts to contact IFTTT reached threshold. Aborting :(")
+							else:
+								print("Error pushing to IFTTT - ConnectionError, will try again...")
+								time.sleep(connectionTimeout)
 						except requests.Timeout:
 							retryPostCounter += 1
 
 							if retryPostCounter >= 5:
 								raise ValueError("Attempts to contact IFTTT reached threshold. Aborting :(")
 							else:
-								print("Error pushing to IFTTT, will try again...")
+								print("Error pushing to IFTTT - Timeout, will try again...")
+								time.sleep(connectionTimeout)
 					else:
 						print("Post disabled - nothing sent")
 
