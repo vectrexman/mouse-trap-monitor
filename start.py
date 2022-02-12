@@ -12,13 +12,10 @@ from datetime import datetime
 
 # Set the GPIO naming convention
 GPIO.setmode(GPIO.BCM)
-
 # Turn off GPIO warnings
 GPIO.setwarnings(False)
-
 # Set a variable to hold the GPIO Pin identity
 pinpir = 17
-
 # Set GPIO pin as input
 GPIO.setup(pinpir, GPIO.IN)
 
@@ -38,12 +35,15 @@ print("enable_post loaded as: " + str(enable_post))
 print("motion_detected_cooldown loaded as: " + str(motion_detected_cooldown))
 print("read_frequency loaded as: " + str(read_frequency))
 print("notification_frequency loaded as: " + str(notification_frequency))
+time.sleep(1)
 
 # Instantiate Program Vars
 beganCountDateTime = datetime.now()
 beganCountTimeStamp = time.time()
 motionDetectedCount = 0
 lastOccurenceTimeStamp = 0
+connectionTimeout = 60 # How many seconds to wait for IFTTT to respond in secs
+retryPostCounter = 0 # Tracks how many attempts to post before giving up
 
 beganCountDateTimeFormatted = beganCountDateTime.strftime("%d/%m/%Y %H:%M:%S")
 print("Current Date/Time: " + beganCountDateTimeFormatted)
@@ -92,11 +92,23 @@ try:
 
 						sinceBeganCountHours = round((sinceBeganCount / 60) / 60, 2)
 
-						# Your IFTTT URL with event name, key and json parameters (values)
-						r = requests.post(
-							'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
-							params={"value1":motionDetectedCount,"value2":sinceBeganCountHours,"value3":"none"}
-						)
+						try:
+							# Your IFTTT URL with event name, key and json parameters (values)
+							# Timeout is how long to wait in seconds in the event of no response or internet dropping
+							r = requests.post(
+								'https://maker.ifttt.com/trigger/motion_detected/with/key/' + ifttt_key,
+								params={"value1":motionDetectedCount,"value2":sinceBeganCountHours,"value3":"none"},
+								timeout=connectionTimeout
+							)
+
+							retryPostCounter = 0
+						except requests.Timeout:
+							retryPostCounter += 1
+
+							if retryPostCounter >= 5:
+								raise ValueError("Attempts to contact IFTTT reached threshold. Aborting :(")
+							else:
+								print("Error pushing to IFTTT, will try again...")
 					else:
 						print("Post disabled - nothing sent")
 
