@@ -27,7 +27,7 @@ The PIR sensor needs to ideally point at the (preferably) humane mouse trap. The
 
 This is what I used for this project, but most Raspberry PI models would work just as well providing they have GPIO to connect the PIR sensor to:
 
-* Raspberry PI Zero WH (Wifi for networking and header for easy GPIO use)
+* Raspberry PI Zero WH (Wifi for networking and header for easy GPIO use but your use case may vary!)
 * PIR sensor
 * 3 Dupont jumper wires to connect them with
 * (Optional) Case for PI and a coffee lid to protect the sensor!
@@ -53,6 +53,8 @@ This is what I used for this project, but most Raspberry PI models would work ju
     If you don't do this you will likely get errors as it won't know what values to use.
 
 ### Running the script
+
+From the git clone'd project directory:
 
 From anywhere (substituting the locaton as relevant):
 
